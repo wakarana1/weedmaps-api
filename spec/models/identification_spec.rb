@@ -1,5 +1,35 @@
 require 'rails_helper'
 
 RSpec.describe Identification, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:user) { create(:user) }
+  subject    { build(:identification, user_id: user.id) }
+
+  it "is valid with valid attributes" do
+    expect(subject).to be_valid
+  end
+
+  it "is not valid without a number" do
+    subject.number = nil
+    expect(subject).to_not be_valid
+  end
+
+  it "is not valid without a state" do
+    subject.state = nil
+    expect(subject).to_not be_valid
+  end
+
+  it "is not valid without an expiration_date" do
+    subject.expiration_date = nil
+    expect(subject).to_not be_valid
+  end
+
+  it "is not valid without an image_url" do
+    subject.image_url = nil
+    expect(subject).to_not be_valid
+  end
+
+  it "is not valid without a user_id" do
+    subject.user_id = nil
+    expect(subject).to_not be_valid
+  end
 end
