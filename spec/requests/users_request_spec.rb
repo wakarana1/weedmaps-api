@@ -37,8 +37,8 @@ RSpec.describe "Users", type: :request do
         get "/api/users/#{user1.id}", headers: headers
         expect(response).to be_successful
         expect(parsed_body['name']).to eq("Joe Weedmaps")
-        expect(parsed_body).to_not include('medical_recommendation')
-        expect(parsed_body).to_not include('identification')
+        expect(parsed_body['medical_recommendation']).to be_nil
+        expect(parsed_body['identification']).to be_nil
       end
     end
 
