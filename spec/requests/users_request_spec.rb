@@ -189,37 +189,43 @@ RSpec.describe "Users", type: :request do
     end
   end
 
-  # # User signup test suite
-  # describe 'POST /api/signup' do
-  #   context 'when valid request' do
-  #     before do
-  #        post '/api/signup', params: valid_attributes.to_json
-  #     end
+  describe 'request to signup' do
+    context 'when valid request' do
+      before do
+         post '/api/signup', params: valid_attributes.to_json, headers: headers
+      end
 
-  #     it 'creates a new user' do
-  #       expect(response).to have_http_status(201)
-  #     end
+      it 'creates a new user' do
+        expect(response).to have_http_status(201)
+      end
 
-  #     it 'returns success message' do
-  #       expect(parsed_body['message']).to match(/Account created successfully/)
-  #     end
+      it 'returns success message' do
+        expect(parsed_body['message']).to match(/Account created successfully/)
+      end
 
-  #     it 'returns an authentication token' do
-  #       expect(parsed_body['auth_token']).not_to be_nil
-  #     end
-  #   end
+      it 'returns an authentication token' do
+        expect(parsed_body['auth_token']).not_to be_nil
+      end
+    end
 
-  #   context 'when invalid request' do
-  #     before { post '/api/signup', params: {} }
+    context 'when invalid request' do
+      before { post '/api/signup', params: {} }
 
-  #     it 'does not create a new user' do
-  #       expect(response).to have_http_status(422)
-  #     end
+      it 'does not create a new user' do
+        expect(response).to have_http_status(422)
+      end
 
-  #     it 'returns failure message' do
-  #       expect(parsed_body['message'])
-  #         .to match(/Validation failed: Password can't be blank, Name can't be blank, Email can't be blank, Password digest can't be blank/)
-  #     end
-  #   end
-  # end
+      it 'returns failure message' do
+        expect(parsed_body['errors'])
+          .to match({
+            "password"=>["can't be blank"],
+            "name"=>["can't be blank"],
+            "email"=>["can't be blank",
+            "is invalid"],
+            "dob"=>["can't be blank"],
+            "password_digest"=>["can't be blank"]
+          })
+      end
+    end
+  end
 end
