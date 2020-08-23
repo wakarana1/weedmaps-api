@@ -1,24 +1,23 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Weedmaps API Code Challenge
 
-Things you may want to cover:
+- [x] Create a service that stores users, med rec, and id's.
 
-* Ruby version
+- [X] This service should allow a user to upload, update, and delete med rec and id data.
 
-* System dependencies
+- [X] Store users' name, email, and dob.
 
-* Configuration
+- [X] Store the med rec number, issuer, state, expiration date, and path to the image.
 
-* Database creation
+- [X] Store the id number, state, expiration date, and path to the image.
 
-* Database initialization
+- [X] If the med rec or Id is expired, return expired.
 
-* How to run the test suite
+### NOTES:
 
-* Services (job queues, cache servers, search engines, etc.)
+  I didn't get some of the questions I emailed to ruby-code-challenge answered, so instead, I made some assumptions that may or may not have been what was wanted.
 
-* Deployment instructions
-
-* ...
+  - Users can only have one Identification and one Medical Recommendation on file and any new ones would overwrite the existing ones on file
+  - I am assuming that the Medical Recommendation and Identification numbers are numerical only
+  - No Authentication/session, as I wasn't sure if that was a requirement, but may build in with bonus
