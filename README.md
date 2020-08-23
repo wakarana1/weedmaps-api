@@ -20,4 +20,3 @@ Weedmaps API Code Challenge
 
   - Users can only have one Identification and one Medical Recommendation on file and any new ones would overwrite the existing ones on file
   - I am assuming that the Medical Recommendation and Identification numbers are numerical only
-  - No Authentication/session, as I wasn't sure if that was a requirement, but may build in with bonus
