@@ -1,13 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe "Identifications", type: :request do
-  let(:user)   { create(:user, name: "Joe Weedmaps") }
-  let(:identification) { create(:identification, user_id: user.id) }
-  let(:user_1)   { create(:user) }
-  let(:expired_identification) { create(:identification, user_id: user_1.id, expiration_date: Date.today - 1) }
-  let(:headers) { valid_headers }
-
-  let(:parsed_body) { JSON.parse(response.body) }
+  let(:user)                    { create(:user, name: "Joe Weedmaps") }
+  let(:identification)          { create(:identification, user_id: user.id) }
+  let(:user_1)                  { create(:user) }
+  let(:expired_identification)  { create(:identification, user_id: user_1.id, expiration_date: Date.today - 1) }
+  let(:headers)                 { valid_headers }
+  let(:parsed_body)             { JSON.parse(response.body) }
 
   describe "request show identification for a user" do
     context 'with a user' do
