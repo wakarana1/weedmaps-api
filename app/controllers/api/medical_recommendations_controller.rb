@@ -1,8 +1,8 @@
 module Api
   class MedicalRecommendationsController < ApplicationController
-    def show
-      @med_rec = MedicalRecommendation.find(params[:id])
+    before_action :set_med_rec, only: [:show, :update, :destroy]
 
+    def show
       render json: med_rec_if_not_expired
     end
 
@@ -18,8 +18,6 @@ module Api
     end
 
     def update
-      @med_rec = MedicalRecommendation.find(params[:id])
-
       if @med_rec.update(med_rec_params)
           render json: med_rec_if_not_expired, status: :ok
       else
@@ -28,8 +26,6 @@ module Api
     end
 
     def destroy
-      @med_rec = MedicalRecommendation.find(params[:id])
-
       @med_rec.destroy
 
       render json: { message: "deleted" }, status: :ok
@@ -38,6 +34,16 @@ module Api
     private
     def med_rec_params
       params.permit(:user_id, :number, :issuer, :state, :expiration_date, :image_url)
+    end
+
+    def set_med_rec
+      begin
+        @med_rec = MedicalRecommendation.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+        med_rec = MedicalRecommendation.new()
+        med_rec.errors.add(:id, "Incorrect Medical Recommendation ID")
+        render json: { errors: med_rec.errors }, status: :not_found
+      end
     end
 
     def new_or_update(user)

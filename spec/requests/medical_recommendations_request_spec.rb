@@ -19,6 +19,15 @@ RSpec.describe "MedicalRecommendations", type: :request do
       end
     end
 
+    context 'with invalid med_rec ID' do
+      it 'throws an error' do
+        user
+        get "/api/users/#{user.id}/med_recs/123456789"
+        expect(response).to_not be_successful
+        expect(parsed_body['errors']['id']).to eq(["Incorrect Medical Recommendation ID"])
+      end
+    end
+
     context 'with an expired med_rec' do
       it 'shows an expired message' do
         user_1

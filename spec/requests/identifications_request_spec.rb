@@ -18,6 +18,15 @@ RSpec.describe "Identifications", type: :request do
       end
     end
 
+    context 'with invalid identification ID' do
+      it 'throws an error' do
+        user
+        get "/api/users/#{user.id}/identifications/123456789"
+        expect(response).to_not be_successful
+        expect(parsed_body['errors']['id']).to eq(["Incorrect Identification ID"])
+      end
+    end
+
     context 'with an expired identification' do
       it 'shows an expired message' do
         user_1
@@ -60,7 +69,7 @@ RSpec.describe "Identifications", type: :request do
       end
     end
 
-    context 'with expiredn identification' do
+    context 'with expired identification' do
       it 'shows expired message' do
         params = {
           number: Faker::Number.number(digits: 9),
@@ -77,7 +86,7 @@ RSpec.describe "Identifications", type: :request do
 
   describe 'request to update identification' do
     context 'with valid params' do
-      it 'will update a identification' do
+      it 'will update an identification' do
         identification
         update_params = {
           state: 'CA',
@@ -89,7 +98,7 @@ RSpec.describe "Identifications", type: :request do
     end
 
     context 'with expired date' do
-      it 'will update a identification' do
+      it 'will update an identification' do
         identification
         update_params = {
           expiration_date: Date.today - 1
@@ -99,7 +108,7 @@ RSpec.describe "Identifications", type: :request do
         expect(parsed_body['message']).to eq("Identification is expired")
       end
 
-      it 'showsn identification with future expiration date' do
+      it 'shows identification with future expiration date' do
         expired_identification
         update_params = { expiration_date: Date.today + 1 }
         patch "/api/users/#{user_1.id}/identifications/#{expired_identification.id}", params: update_params
@@ -111,8 +120,8 @@ RSpec.describe "Identifications", type: :request do
   end
 
   describe 'request to delete identification' do
-    context 'with a validn identification' do
-      it 'deletesn identification' do
+    context 'with a valid identification' do
+      it 'deletes an identification' do
         identification
         delete "/api/users/#{user.id}/identifications/#{identification.id}"
         expect(response).to be_successful

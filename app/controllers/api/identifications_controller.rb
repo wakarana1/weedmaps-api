@@ -1,8 +1,8 @@
 module Api
   class IdentificationsController < ApplicationController
-    def show
-      @identification = Identification.find(params[:id])
+    before_action :set_identification, only: [:show, :update, :destroy]
 
+    def show
       render json: identification_if_not_expired
     end
 
@@ -17,8 +17,6 @@ module Api
     end
 
     def update
-      @identification = Identification.find(params[:id])
-
       if @identification.update(identification_params)
           render json: identification_if_not_expired, status: :ok
       else
@@ -27,8 +25,6 @@ module Api
     end
 
     def destroy
-      @identification = Identification.find(params[:id])
-
       @identification.destroy
 
       render json: { message: "deleted" }, status: :ok
@@ -37,6 +33,16 @@ module Api
     private
     def identification_params
       params.permit(:user_id, :number, :state, :expiration_date, :image_url)
+    end
+
+    def set_identification
+      begin
+        @identification = Identification.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+        identification = Identification.new()
+        identification.errors.add(:id, "Incorrect Identification ID")
+        render json: { errors: identification.errors }, status: :not_found
+      end
     end
 
     def identification_if_not_expired
