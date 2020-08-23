@@ -27,7 +27,7 @@ module Api
     def destroy
       @identification.destroy
 
-      render json: { message: "deleted" }, status: :ok
+      render json: { message: 'deleted' }, status: :ok
     end
 
     private
@@ -40,7 +40,7 @@ module Api
         @identification = Identification.find(params[:id])
       rescue ActiveRecord::RecordNotFound
         identification = Identification.new()
-        identification.errors.add(:id, "Incorrect Identification ID")
+        identification.errors.add(:id, 'Incorrect Identification ID')
         render json: { errors: identification.errors }, status: :not_found
       end
     end

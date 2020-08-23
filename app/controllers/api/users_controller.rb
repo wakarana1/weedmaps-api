@@ -1,5 +1,6 @@
 module Api
   class UsersController < ApplicationController
+    skip_before_action :authorize_request, only: :create
     before_action :set_user, only: [:show, :update, :destroy]
 
     def index
@@ -16,7 +17,9 @@ module Api
       @user = User.new(user_params)
 
       if @user.save
-        render json: @user, status: :created
+        auth_token = AuthenticateUser.new(@user.email, @user.password).call
+        response = { message: 'Account created successfully', auth_token: auth_token }
+        render json: response, status: :created
       else
         render json: { errors: @user.errors }, status: :unprocessable_entity
       end
@@ -49,7 +52,7 @@ module Api
     end
 
     def user_params
-      params.permit(:name, :dob, :email)
+      params.permit(:name, :dob, :email, :password, :password_confirmation)
     end
   end
 

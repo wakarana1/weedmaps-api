@@ -28,7 +28,7 @@ module Api
     def destroy
       @med_rec.destroy
 
-      render json: { message: "deleted" }, status: :ok
+      render json: { message: 'deleted' }, status: :ok
     end
 
     private
@@ -41,7 +41,7 @@ module Api
         @med_rec = MedicalRecommendation.find(params[:id])
       rescue ActiveRecord::RecordNotFound
         med_rec = MedicalRecommendation.new()
-        med_rec.errors.add(:id, "Incorrect Medical Recommendation ID")
+        med_rec.errors.add(:id, 'Incorrect Medical Recommendation ID')
         render json: { errors: med_rec.errors }, status: :not_found
       end
     end
