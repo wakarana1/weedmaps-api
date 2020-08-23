@@ -1,13 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe "MedicalRecommendations", type: :request do
-  let(:user)   { create(:user, name: "Joe Weedmaps") }
-  let(:med_rec) { create(:medical_recommendation, user_id: user.id) }
-  let(:user_1)   { create(:user) }
+  let(:user)            { create(:user, name: "Joe Weedmaps") }
+  let(:med_rec)         { create(:medical_recommendation, user_id: user.id) }
+  let(:user_1)          { create(:user) }
   let(:expired_med_rec) { create(:medical_recommendation, user_id: user_1.id, expiration_date: Date.today - 1) }
-  let(:headers) { valid_headers }
-
-  let(:parsed_body) { JSON.parse(response.body) }
+  let(:headers)         { valid_headers }
+  let(:parsed_body)     { JSON.parse(response.body) }
 
   describe "request show medical recommendation for a user" do
     context 'with a user' do

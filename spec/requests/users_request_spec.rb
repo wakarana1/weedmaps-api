@@ -1,17 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
-  let(:user1)   { create(:user, name: "Joe Weedmaps") }
-  let(:user2)   { create(:user) }
-  let(:valid_attributes) do
-    attributes_for(:user)
-  end
-  let(:headers) { { "Authorization" => token_generator(user1.id), "Content-Type" => "application/json"} }
+  let(:user1)             { create(:user, name: "Joe Weedmaps") }
+  let(:user2)             { create(:user) }
+  let(:headers)           { { "Authorization" => token_generator(user1.id), "Content-Type" => "application/json"} }
+  let(:med_rec1)          { create(:medical_recommendation, user_id: user1.id) }
+  let(:identification)    { create(:identification, user_id: user1.id) }
+  let(:parsed_body)       { JSON.parse(response.body) }
+  let(:valid_attributes)  { attributes_for(:user) }
 
-  let(:med_rec1) { create(:medical_recommendation, user_id: user1.id) }
-  let(:identification) { create(:identification, user_id: user1.id) }
-
-  let(:parsed_body) { JSON.parse(response.body) }
 
   describe "request index of all users" do
     context "with users" do
@@ -27,7 +24,6 @@ RSpec.describe "Users", type: :request do
   end
 
   describe 'request to show a single user' do
-
     context 'with a valid user_id' do
       before do
         user1
