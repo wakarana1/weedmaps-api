@@ -10,35 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_21_183112) do
+ActiveRecord::Schema.define(version: 2020_08_23_002819) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
-  create_table "identifications", force: :cascade do |t|
+  create_table "identifications", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.integer "number"
     t.string "state"
     t.date "expiration_date"
     t.string "image_url"
-    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.uuid "user_id", null: false
     t.index ["user_id"], name: "index_identifications_on_user_id"
   end
 
-  create_table "medical_recommendations", force: :cascade do |t|
+  create_table "medical_recommendations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.integer "number"
     t.string "issuer"
     t.string "state"
     t.date "expiration_date"
     t.string "image_url"
-    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.uuid "user_id", null: false
     t.index ["user_id"], name: "index_medical_recommendations_on_user_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "email"
     t.date "dob"
@@ -46,6 +47,4 @@ ActiveRecord::Schema.define(version: 2020_08_21_183112) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  add_foreign_key "identifications", "users"
-  add_foreign_key "medical_recommendations", "users"
 end
