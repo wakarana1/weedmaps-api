@@ -6,15 +6,19 @@ RSpec.describe User, type: :model do
     expect(subject).to be_valid
   end
   it "is not valid without a name" do
-    subject.name =  nil
+    subject.name = nil
     expect(subject).to_not be_valid
   end
   it "is not valid without a email" do
-    subject.email =  nil
+    subject.email = nil
     expect(subject).to_not be_valid
   end
   it "is not valid without a dob" do
-    subject.dob =  nil
+    subject.dob = nil
+    expect(subject).to_not be_valid
+  end
+  it "is not valid without a password_digest" do
+    subject.password_digest = nil
     expect(subject).to_not be_valid
   end
 end
